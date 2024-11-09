@@ -24,11 +24,10 @@ const SignUp = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(doctorData),
       });
-      
+
       if (response.ok) {
-        console.log('Doctor profile created successfully');
         alert('Doctor profile created');
-        navigate('/'); // Redirect to the home page or login page
+        navigate('/patientdetails');  // Redirect to /patientdetails page
       } else {
         console.error('Failed to create doctor profile');
       }
@@ -38,14 +37,14 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 text-gray-800 transition-colors duration-300">
       <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
         <button onClick={() => navigate('/')} className="text-purple-500 mb-4">
-          {'< Back'}
+          {'< Back'}  {/* This button will navigate to the home page */}
         </button>
-        
+
         <h2 className="text-2xl font-bold text-purple-700 mb-6">Doctor SignUp</h2>
-        
+
         <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
           <input
             type="text"
@@ -91,7 +90,7 @@ const SignUp = () => {
           <button
             type="button"
             onClick={handleSubmit}
-            className="w-full bg-purple-500 text-white py-2 rounded-lg mt-4"
+            className="w-full bg-purple-500 text-white py-2 rounded-lg mt-4 hover:bg-purple-600 transition duration-300"
           >
             Sign Up
           </button>
