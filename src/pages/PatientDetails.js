@@ -71,7 +71,8 @@ const PatientDetails = () => {
 
           {/* Submit Button */}
           <button
-            type="submit"
+            type="button"
+            onClick={() => navigate('/symptoms')}
             className="w-full bg-purple-500 text-white py-2 rounded-lg mt-4"
           >
             Next

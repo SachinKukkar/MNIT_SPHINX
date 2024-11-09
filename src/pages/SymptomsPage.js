@@ -10,8 +10,7 @@ const SymptomsPage = () => {
   };
 
   const handleButtonClick = () => {
-    // Logic for handling the button click (e.g., save data or navigate)
-    console.log("Write Prescription button clicked");
+    navigate('/prescription'); // Navigate to the prescription page
   };
 
   return (
