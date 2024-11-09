@@ -41,16 +41,16 @@ const Patient = mongoose.model('Patient', patientSchema);
 
 // Define symptom schema and model (for patientDB)
 const symptomSchema = new mongoose.Schema({
-  patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }, // Reference to Patient
-  symptoms: [String], // Array of symptoms
+  patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' },
+  symptoms: [String],
 });
 
 const Symptom = mongoose.model('Symptom', symptomSchema);
 
 // Define prescription schema and model (for patientDB)
 const prescriptionSchema = new mongoose.Schema({
-  patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }, // Reference to Patient
-  prescription: [String], // Array of prescription details
+  patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' },
+  prescription: [String],
 });
 
 const Prescription = mongoose.model('Prescription', prescriptionSchema);
@@ -64,7 +64,7 @@ const doctorSchema = new mongoose.Schema({
   password: String, // Consider hashing this password in production
 });
 
-const Doctor = doctorDb.model('Doctor', doctorSchema); // Use doctorDb connection
+const Doctor = doctorDb.model('Doctor', doctorSchema);
 
 // Routes for patient
 

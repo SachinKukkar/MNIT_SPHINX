@@ -22,7 +22,9 @@ const PatientDetails = () => {
   };
 
   // Handle form submission
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     try {
       const response = await fetch('http://localhost:5000/api/patient', {
         method: 'POST',
@@ -34,7 +36,7 @@ const PatientDetails = () => {
 
       if (response.ok) {
         console.log('Patient details saved successfully');
-        navigate('/symptoms'); // Navigate to the next page
+        navigate('/symptoms');
       } else {
         console.error('Failed to save patient details');
       }
@@ -52,7 +54,7 @@ const PatientDetails = () => {
 
         <h2 className="text-2xl font-bold text-purple-700 mb-6">Patient Details</h2>
 
-        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-2">
             <div className="flex items-center border rounded-lg p-2">
               <FaUser className="text-purple-500 mr-2" />
@@ -117,8 +119,7 @@ const PatientDetails = () => {
           </div>
 
           <button
-            type="button"
-            onClick={handleSubmit}
+            type="submit"
             className="w-full bg-purple-500 text-white py-2 rounded-lg mt-4"
           >
             Next

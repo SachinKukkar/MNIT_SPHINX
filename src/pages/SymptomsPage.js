@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios for making API requests
-import './SymptomsPage.css'; // Import CSS for styling
+import axios from 'axios';
+import './SymptomsPage.css';
 
 const SymptomsPage = () => {
-  const [patientId, setPatientId] = useState(''); // Store patient ID
-  const [symptoms, setSymptoms] = useState(''); // Store symptoms input
+  const [patientId, setPatientId] = useState('');
+  const [symptoms, setSymptoms] = useState('');
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate('/patientdetails'); // Navigate to the patient details page
+    navigate('/patientdetails');
   };
 
   const handlePrescriptionClick = () => {
-    navigate('/prescription'); // Navigate to the prescription page
+    navigate('/prescription');
   };
 
   const handleSymptomsSubmit = async () => {
@@ -24,14 +24,14 @@ const SymptomsPage = () => {
 
     try {
       // Send symptoms to the backend to store them in MongoDB
-      const response = await axios.post('http://localhost:5000/addSymptoms', {
+      const response = await axios.post('http://localhost:5000/api/addSymptoms', {
         patientId,
-        symptoms: symptoms.split(',').map((s) => s.trim()) // Split symptoms into an array
+        symptoms: symptoms.split(',').map((s) => s.trim())
       });
 
-      console.log(response.data); // Log success message
+      console.log(response.data);
       alert('Symptoms added successfully!');
-      handlePrescriptionClick(); // Navigate to prescription page after submitting
+      handlePrescriptionClick();
     } catch (error) {
       console.error("Error adding symptoms:", error);
       alert('Failed to add symptoms. Please try again.');
@@ -63,9 +63,6 @@ const SymptomsPage = () => {
       <button className="submit-button" onClick={handleSymptomsSubmit}>
         Submit Symptoms
       </button>
-      {/* <button className="submit-button" onClick={handlePrescriptionClick}>
-        Write Prescription
-      </button> */}
     </div>
   );
 };

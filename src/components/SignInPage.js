@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BiUser, BiLock } from 'react-icons/bi';
 import './SignInPage.css';
 
+import LoginButton from './LoginButton'; // Import LoginButton for Auth0 login
+import LogoutButton from './LogoutButton'; // Import LogoutButton for Auth0 logout
+import { useAuth0 } from '@auth0/auth0-react'; // Import useAuth0 hook
+
 const SignInPage = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuth0(); // Destructure isAuthenticated and user from useAuth0
   const [emailOrUsername, setEmailOrUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -47,49 +52,29 @@ const SignInPage = () => {
         <div className="logo text-center mb-6">
           <div className="logo-icon text-6xl text-purple-600">📱</div>
         </div>
-        <h2 className="text-2xl font-semibold text-center text-purple-700 mb-6">Sign in</h2>
+        <h2 className="text-2xl font-semibold text-center text-purple-700 mb-6">Sign In</h2>
         
-        <form onSubmit={handleSubmit}>
-          <div className="input-group mb-4">
-            <input
-              type="text"
-              placeholder="Email or Username"
-              value={emailOrUsername}
-              onChange={(e) => setEmailOrUsername(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
-            <BiUser className="input-icon absolute right-3 top-3 text-gray-500" />
+        {/* Auth0 Login Button renamed to "SignIn" */}
+        {!isAuthenticated ? (
+          <div className="text-center mt-6">
+            <LoginButton /> {/* Auth0 login button */}
           </div>
-          
-          <div className="input-group mb-6 relative">
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-            />
-            <BiLock className="input-icon absolute right-3 top-3 text-gray-500" />
-          </div>
-          
-          <div className="forgot-password text-right mb-4">
-            <a href="#" className="text-purple-600 hover:text-purple-800">Forgot Password?</a>
-          </div>
-          
-          <button type="submit" className="w-full p-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300">
-            Sign In
-          </button>
-        </form>
-
-        {errorMessage && (
-          <div className="error-message text-red-500 text-center mt-4">
-            {errorMessage}
+        ) : (
+          <div className="text-center mt-6">
+            <p>Welcome, {user.name}!</p>
+            <LogoutButton /> {/* Auth0 logout button */}
           </div>
         )}
 
         <div className="signup-link text-center mt-6">
           <p className="text-gray-700">Don't have an account? <a href="#" onClick={() => navigate('/signup')} className="text-purple-600 hover:text-purple-800">Sign Up</a></p>
         </div>
+
+        {errorMessage && (
+          <div className="error-message text-red-500 text-center mt-4">
+            {errorMessage}
+          </div>
+        )}
       </div>
     </div>
   );

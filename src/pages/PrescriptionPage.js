@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Excalidraw } from '@excalidraw/excalidraw'; // Named import for Excalidraw
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios for making API requests
-import './PrescriptionPage.css'; // Import CSS for styling
+import axios from 'axios';
+import './PrescriptionPage.css';
 
 const PrescriptionPage = () => {
-  const [patientId, setPatientId] = useState(''); // Store patient ID
-  const [prescription, setPrescription] = useState(''); // Store prescription input (in text format)
+  const [patientId, setPatientId] = useState('');
+  const [prescription, setPrescription] = useState('');
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate('/symptoms'); // Navigate to the symptoms page
+    navigate('/symptoms');
   };
 
   const handlePrescriptionSubmit = async () => {
@@ -21,12 +21,12 @@ const PrescriptionPage = () => {
 
     try {
       // Send prescription data to the backend to store it in MongoDB
-      const response = await axios.post('http://localhost:5000/addPrescription', {
+      const response = await axios.post('http://localhost:5000/api/addPrescription', {
         patientId,
-        prescription: prescription.split(',').map((p) => p.trim()) // Split prescription into an array
+        prescription: prescription.split(',').map((p) => p.trim())
       });
 
-      console.log(response.data); // Log success message
+      console.log(response.data);
       alert('Prescription submitted successfully!');
     } catch (error) {
       console.error("Error submitting prescription:", error);

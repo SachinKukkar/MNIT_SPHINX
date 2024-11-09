@@ -1,8 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';  // Import useAuth0 hook
+import LogoutButton from './LogoutButton'; // Import LogoutButton component
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const { isAuthenticated, user } = useAuth0();  // Get authentication status and user info
 
   return (
     <div className="relative">
@@ -21,7 +24,7 @@ const HomePage = () => {
         <div className="flex space-x-8">
           {/* About Us and Contact Us links */}
           <button
-            onClick={() => navigate('/aboutus')}
+            onClick={() => navigate('/about')}
             className="text-lg hover:text-gray-200 transition duration-300"
           >
             About Us
@@ -32,6 +35,34 @@ const HomePage = () => {
           >
             Contact Us
           </button>
+
+          {/* Conditionally render Login/Signup or Logout based on authentication status */}
+          {isAuthenticated ? (
+            <>
+              <LogoutButton />  {/* Show Logout button if authenticated */}
+              <button
+                onClick={() => navigate('/patientdetails')}
+                className="text-lg hover:text-gray-200 transition duration-300"
+              >
+                Add Patient
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => navigate('/signin')}
+                className="text-lg hover:text-gray-200 transition duration-300"
+              >
+                Login
+              </button>
+              <button
+                onClick={() => navigate('/signup')}
+                className="text-lg hover:text-gray-200 transition duration-300"
+              >
+                Signup
+              </button>
+            </>
+          )}
         </div>
       </nav>
 
@@ -46,20 +77,22 @@ const HomePage = () => {
         </p>
 
         <div className="space-y-6">
-          <div className="flex justify-center space-x-8 mt-4">
-            <button
-              onClick={() => navigate('/signin')}
-              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg shadow-lg hover:scale-105 transition-all duration-300 ease-in-out"
-            >
-              Login
-            </button>
-            <button
-              onClick={() => navigate('/signup')}
-              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg shadow-lg hover:scale-105 transition-all duration-300 ease-in-out"
-            >
-              Signup
-            </button>
-          </div>
+          {!isAuthenticated && (  // Only show Login/Signup buttons if not authenticated
+            <div className="flex justify-center space-x-8 mt-4">
+              <button
+                onClick={() => navigate('/signin')}
+                className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg shadow-lg hover:scale-105 transition-all duration-300 ease-in-out"
+              >
+                Login
+              </button>
+              <button
+                onClick={() => navigate('/signup')}
+                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg shadow-lg hover:scale-105 transition-all duration-300 ease-in-out"
+              >
+                Signup
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
