@@ -7,7 +7,7 @@ const PrescriptionPage = () => {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate('/'); // Navigate to the home page
+    navigate('/symptoms'); // Navigate to the home page
   };
 
   const handleButtonClick = () => {
