@@ -27,6 +27,22 @@ const patientSchema = new mongoose.Schema({
 
 const Patient = mongoose.model('Patient', patientSchema);
 
+// Define a symptom schema
+const symptomSchema = new mongoose.Schema({
+  patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }, // Reference to Patient
+  symptoms: [String], // Array of symptoms
+});
+
+const Symptom = mongoose.model('Symptom', symptomSchema);
+
+// Define a prescription schema
+const prescriptionSchema = new mongoose.Schema({
+  patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }, // Reference to Patient
+  prescription: [String], // Array of prescription details
+});
+
+const Prescription = mongoose.model('Prescription', prescriptionSchema);
+
 // Define a POST route to save patient details
 app.post('/api/patient', async (req, res) => {
   try {
@@ -35,6 +51,32 @@ app.post('/api/patient', async (req, res) => {
     res.status(201).json({ message: 'Patient details saved successfully' });
   } catch (error) {
     res.status(400).json({ message: 'Error saving patient details', error });
+  }
+});
+
+// Endpoint to add symptoms
+app.post('/addSymptoms', async (req, res) => {
+  const { patientId, symptoms } = req.body;
+  
+  try {
+    const newSymptoms = new Symptom({ patientId, symptoms });
+    await newSymptoms.save();
+    res.send('Symptoms added');
+  } catch (error) {
+    res.status(400).send('Error adding symptoms');
+  }
+});
+
+// Endpoint to add prescription
+app.post('/addPrescription', async (req, res) => {
+  const { patientId, prescription } = req.body;
+
+  try {
+    const newPrescription = new Prescription({ patientId, prescription });
+    await newPrescription.save();
+    res.send('Prescription added');
+  } catch (error) {
+    res.status(400).send('Error adding prescription');
   }
 });
 
