@@ -1,0 +1,49 @@
+.symptoms-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .back-button {
+    align-self: flex-start;
+    margin-bottom: 20px;
+    background: none;
+    border: none;
+    color: #6d28d9;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .title {
+    color: #4c1d95;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+  
+  .symptoms-input {
+    width: 100%;
+    max-width: 400px;
+    height: 150px;
+    padding: 10px;
+    border: 2px solid #6d28d9;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+  
+  .submit-button {
+    background-color: #c084fc;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-button:hover {
+    background-color: #9333ea;
+  }
+  
