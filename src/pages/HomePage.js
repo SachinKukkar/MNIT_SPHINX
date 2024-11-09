@@ -9,7 +9,7 @@ const HomePage = () => {
   };
 
   const handleLoginClick = () => {
-    navigate('/login'); // Redirect to login page
+    navigate('/signin'); // Redirect to login page
   };
 
   const handleSignupClick = () => {
@@ -17,27 +17,32 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gradient-to-r from-blue-500 to-indigo-500">
+    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-gray-100 to-gray-300">
+      {/* Welcome message at the top */}
+      <h1 className="text-4xl font-semibold text-gray-800 mb-10">
+        Welcome to Our Healthcare App
+      </h1>
+
       <div className="text-center space-y-6">
-        <h1 className="text-5xl font-bold text-white mb-6">Welcome to Our Healthcare App</h1>
-        
+        {/* "Add Patient" button */}
         <button
           onClick={handleAddPatientClick}
-          className="p-4 bg-white text-blue-500 rounded-lg shadow-lg hover:bg-gray-200 transition duration-300"
+          className="px-6 py-3 bg-indigo-600 text-white rounded-lg shadow-lg hover:bg-indigo-700 transition duration-300"
         >
           Add Patient
         </button>
-        
-        <div className="space-x-4">
+
+        {/* "Login" and "Signup" buttons aligned in a row */}
+        <div className="flex justify-center space-x-4 mt-4">
           <button
             onClick={handleLoginClick}
-            className="p-4 bg-white text-blue-500 rounded-lg shadow-lg hover:bg-gray-200 transition duration-300"
+            className="px-6 py-3 bg-gray-700 text-white rounded-lg shadow-lg hover:bg-gray-800 transition duration-300"
           >
             Login
           </button>
           <button
             onClick={handleSignupClick}
-            className="p-4 bg-white text-blue-500 rounded-lg shadow-lg hover:bg-gray-200 transition duration-300"
+            className="px-6 py-3 bg-gray-700 text-white rounded-lg shadow-lg hover:bg-gray-800 transition duration-300"
           >
             Signup
           </button>

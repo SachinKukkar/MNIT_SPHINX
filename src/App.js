@@ -1,7 +1,7 @@
 // src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './components/Navbar';
+// import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -10,12 +10,13 @@ import SignInPage from './components/SignInPage';
 import PatientDetails from './pages/PatientDetails';
 import SymptomsPage from './pages/SymptomsPage';
 import Prescription from './pages/PrescriptionPage';
+import SignUp from './pages/SignUp';
 
 function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
-        <Navbar />
+        {/* <Navbar /> */}
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -26,7 +27,7 @@ function App() {
             <Route path="/symptoms" element={<SymptomsPage />} />
             <Route path="/prescription" element={<Prescription />} />
             <Route path="/symptoms/:patientId" element={<SymptomsPage />} />
-
+            <Route path="/signup" element={<SignUp />} />
           </Routes>
         </main>
         <Footer />

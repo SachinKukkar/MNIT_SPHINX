@@ -9,13 +9,25 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
+// Connect to MongoDB for patientDB
 mongoose.connect('mongodb://localhost:27017/patientDB', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log('Connected to patientDB'))
+  .catch(err => console.log('Error connecting to patientDB:', err));
+
+// Connect to a separate MongoDB for doctorDB
+const doctorDb = mongoose.createConnection('mongodb://localhost:27017/doctorDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-// Define a patient schema
+doctorDb.on('connected', () => {
+  console.log('Connected to doctorDB');
+});
+
+// Define patient schema and model (for patientDB)
 const patientSchema = new mongoose.Schema({
   fullName: String,
   lastName: String,
@@ -27,7 +39,7 @@ const patientSchema = new mongoose.Schema({
 
 const Patient = mongoose.model('Patient', patientSchema);
 
-// Define a symptom schema
+// Define symptom schema and model (for patientDB)
 const symptomSchema = new mongoose.Schema({
   patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }, // Reference to Patient
   symptoms: [String], // Array of symptoms
@@ -35,7 +47,7 @@ const symptomSchema = new mongoose.Schema({
 
 const Symptom = mongoose.model('Symptom', symptomSchema);
 
-// Define a prescription schema
+// Define prescription schema and model (for patientDB)
 const prescriptionSchema = new mongoose.Schema({
   patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }, // Reference to Patient
   prescription: [String], // Array of prescription details
@@ -43,43 +55,70 @@ const prescriptionSchema = new mongoose.Schema({
 
 const Prescription = mongoose.model('Prescription', prescriptionSchema);
 
-// Define a POST route to save patient details
+// Define doctor schema and model (for doctorDB)
+const doctorSchema = new mongoose.Schema({
+  fullName: String,
+  specialty: String,
+  contactNumber: String,
+  email: String,
+  password: String, // Consider hashing this password in production
+});
+
+const Doctor = doctorDb.model('Doctor', doctorSchema); // Use doctorDb connection
+
+// Routes for patient
+
+// POST route to save patient details
 app.post('/api/patient', async (req, res) => {
   try {
     const newPatient = new Patient(req.body);
     await newPatient.save();
-    res.status(201).json({ message: 'Patient details saved successfully' });
+    res.status(201).json({ message: 'Patient details saved successfully', patientId: newPatient._id });
   } catch (error) {
     res.status(400).json({ message: 'Error saving patient details', error });
   }
 });
 
-// Endpoint to add symptoms
-app.post('/addSymptoms', async (req, res) => {
+// POST route to add symptoms
+app.post('/api/addSymptoms', async (req, res) => {
   const { patientId, symptoms } = req.body;
-  
+
   try {
     const newSymptoms = new Symptom({ patientId, symptoms });
     await newSymptoms.save();
-    res.send('Symptoms added');
+    res.status(201).json({ message: 'Symptoms added successfully' });
   } catch (error) {
-    res.status(400).send('Error adding symptoms');
+    res.status(400).json({ message: 'Error adding symptoms', error });
   }
 });
 
-// Endpoint to add prescription
-app.post('/addPrescription', async (req, res) => {
+// POST route to add prescription
+app.post('/api/addPrescription', async (req, res) => {
   const { patientId, prescription } = req.body;
 
   try {
     const newPrescription = new Prescription({ patientId, prescription });
     await newPrescription.save();
-    res.send('Prescription added');
+    res.status(201).json({ message: 'Prescription added successfully' });
   } catch (error) {
-    res.status(400).send('Error adding prescription');
+    res.status(400).json({ message: 'Error adding prescription', error });
   }
 });
 
+// Routes for doctor
+
+// POST route to save doctor profile in the doctorDB
+app.post('/api/doctor', async (req, res) => {
+  try {
+    const newDoctor = new Doctor(req.body);
+    await newDoctor.save();
+    res.status(201).json({ message: 'Doctor profile created successfully' });
+  } catch (error) {
+    res.status(400).json({ message: 'Error creating doctor profile', error });
+  }
+});
+
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
