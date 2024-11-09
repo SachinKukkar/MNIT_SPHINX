@@ -1,5 +1,5 @@
 import React from 'react';
-import Excalidraw from '@excalidraw/excalidraw';
+import { Excalidraw } from '@excalidraw/excalidraw'; // Named import for Excalidraw
 import { useNavigate } from 'react-router-dom';
 import './PrescriptionPage.css'; // Import CSS for styling
 
@@ -12,7 +12,7 @@ const PrescriptionPage = () => {
 
   const handleButtonClick = () => {
     // Logic for handling the button click (e.g., save data or navigate)
-    console.log("Write Prescription button clicked");
+    console.log("Submit Prescription button clicked");
   };
 
   return (
@@ -21,10 +21,12 @@ const PrescriptionPage = () => {
         &larr; Back
       </button>
       <h2 className="title">Prescription</h2>
-      <textarea
-        className="prescription-input"
-        placeholder="Describe your prescription here"
-      />
+      
+      {/* Excalidraw Drawing Area */}
+      <div style={{ height: "500px", border: "1px solid #ccc", borderRadius: "8px", marginBottom: "20px" }}>
+        <Excalidraw />
+      </div>
+
       <button className="submit-button" onClick={handleButtonClick}>
         Submit Prescription
       </button>
