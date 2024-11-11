@@ -9,7 +9,7 @@ const PORT = 5000;
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB for patientDB
+// Connect to MongoDB for patientDB (local)
 mongoose.connect('mongodb://localhost:27017/patientDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -17,7 +17,7 @@ mongoose.connect('mongodb://localhost:27017/patientDB', {
   .then(() => console.log('Connected to patientDB'))
   .catch(err => console.log('Error connecting to patientDB:', err));
 
-// Connect to a separate MongoDB for doctorDB
+// Connect to a separate MongoDB for doctorDB (local)
 const doctorDb = mongoose.createConnection('mongodb://localhost:27017/doctorDB', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -51,6 +51,7 @@ const Symptom = mongoose.model('Symptom', symptomSchema);
 const prescriptionSchema = new mongoose.Schema({
   patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient' },
   prescription: [String],
+  drawingData: Object, // Store drawing data
 });
 
 const Prescription = mongoose.model('Prescription', prescriptionSchema);
@@ -92,14 +93,18 @@ app.post('/api/addSymptoms', async (req, res) => {
   }
 });
 
-// POST route to add prescription
+// POST route to add prescription with drawing data
 app.post('/api/addPrescription', async (req, res) => {
-  const { patientId, prescription } = req.body;
+  const { patientId, prescription, drawingData } = req.body;
 
   try {
-    const newPrescription = new Prescription({ patientId, prescription });
+    const newPrescription = new Prescription({
+      patientId,
+      prescription,
+      drawingData, // Store the drawing data in the prescription document
+    });
     await newPrescription.save();
-    res.status(201).json({ message: 'Prescription added successfully' });
+    res.status(201).json({ message: 'Prescription with drawing added successfully' });
   } catch (error) {
     res.status(400).json({ message: 'Error adding prescription', error });
   }

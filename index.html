@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prescription Page</title>
+  <link rel="stylesheet" href="PrescriptionPage.css">
+  <script src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/@excalidraw/excalidraw/dist/excalidraw.development.js"
+    ></script>
+</head>
+<body>
+  <div class="prescription-page">
+    <!-- Back Button -->
+    <button class="back-button" onclick="goBack()">
+      &larr; Back
+    </button>
+
+    <!-- Title -->
+    <h2 class="title">Prescription</h2>
+
+    <!-- Patient ID Input -->
+    <input
+      type="text"
+      class="patient-id-input"
+      id="patientId"
+      placeholder="Enter Patient ID"
+    />
+
+    <!-- Excalidraw Drawing Area for prescription -->
+    <div
+      style="height: 500px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 20px;"
+      id="excalidraw"
+    >
+    <script type="text/javascript" src="packages/excalidraw/index.js"></script>
+    </div>
+
+    <!-- Prescription Text Area -->
+    <textarea
+      class="prescription-input"
+      id="prescription"
+      placeholder="Enter prescription details (e.g., medication)"
+    ></textarea>
+
+    <!-- Submit Button -->
+    <button class="submit-button" onclick="submitPrescription()">
+      Submit Prescription
+    </button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    function goBack() {
+      // Logic to navigate back (replace with actual routing logic if using a framework)
+      window.location.href = '/symptoms';
+    }
+
+    async function submitPrescription() {
+      const patientId = document.getElementById('patientId').value;
+      const prescription = document.getElementById('prescription').value;
+
+      if (!patientId || !prescription) {
+        alert('Please fill in both patient ID and prescription');
+        return;
+      }
+
+      try {
+        const response = await axios.post('http://localhost:5000/api/addPrescription', {
+          patientId: patientId,
+          prescription: prescription.split(',').map((p) => p.trim())
+        });
+
+        console.log(response.data);
+        alert('Prescription submitted successfully!');
+      } catch (error) {
+        console.error("Error submitting prescription:", error);
+        alert('Failed to submit prescription. Please try again.');
+      }
+    }
+  </script>
+</body>
+</html>

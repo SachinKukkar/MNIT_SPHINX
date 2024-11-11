@@ -1,0 +1,11 @@
+runtime: nodejs18  # or nodejs16 if you're using that version
+
+# Optionally specify instance class and scaling
+instance_class: F1  # Options include F1, F2, etc.
+
+env_variables:  # Define any environment variables your app requires
+  MONGODB_URI: "mongodb+srv://sachinkukkar1998:zLIBnwSIOpKAPwbz@cluster0.jazri.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"  # Replace with your MongoDB URI
+  PORT: "8080"  # App Engine serves on port 8080
+
+automatic_scaling:
+  max_instances: 2  # Limit the number of instances
